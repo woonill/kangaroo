@@ -1,5 +1,8 @@
 Kangaroo Project
-Netty is an asynchronous event-driven network application framework for rapid development of maintainable high performance protocol servers & clients.
+
+基于Netty的响应式风格的 Http处理器 。可基于基础代码实现 restful风格的请求处理和CQRS风格的或简单的Command模式的处理风格。
+
+
 
 Links
 Web Site
