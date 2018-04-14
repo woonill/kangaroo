@@ -1,3 +1,4 @@
+/*
 package com.kangaroo.component;
 
 import com.kangaroo.*;
@@ -242,3 +243,4 @@ public final class DefaultComponentContext implements ConfigurableComponentConte
     }
 
 }
+*/

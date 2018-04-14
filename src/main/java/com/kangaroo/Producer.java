@@ -6,5 +6,5 @@ package com.kangaroo;
 public interface Producer {
 
 
-    RunProc run();
+    Proc run();
 }

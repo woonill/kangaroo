@@ -151,7 +151,7 @@ public class SimpleNettyHttpHandler implements NettyHttpHandler {
                     final ByteBuf content = request.content();
                     byte[] req = new byte[content.readableBytes()];
                     content.readBytes(req);
-                    resRequest = new Request(requestUri, req, header);
+                    resRequest = new DefaultRequest(requestUri, req, header);
                 } else {
                     if (HttpPostRequestDecoder.isMultipart(request)) {
                         this.decoder = new HttpPostRequestDecoder(new DefaultHttpDataFactory(true), request);
@@ -185,10 +185,10 @@ public class SimpleNettyHttpHandler implements NettyHttpHandler {
                     }
                     values.put(key, sb.toString());
                 }
-                resRequest = new Request(requestUri, JSON.toJSONBytes(values), header);
+                resRequest = new DefaultRequest(requestUri, JSON.toJSONBytes(values), header);
             } else {
                 logger.debug("Is Non Support method:" + request.method());
-                resRequest = new Request(requestUri, "".getBytes(), header);
+                resRequest = new DefaultRequest(requestUri, "".getBytes(), header);
             }
             return resRequest;
         }
@@ -240,11 +240,11 @@ public class SimpleNettyHttpHandler implements NettyHttpHandler {
             }
 
             if (attachments.isEmpty()) {
-                return new Request(path, payload, header);
+                return new DefaultRequest(path, payload, header);
             }
 
             Attachment[] attaArray = attachments.toArray(new Attachment[attachments.size()]);
-            return new Request(path, payload, header, attaArray);
+            return new DefaultRequest(path, payload, header, attaArray);
         }
 
 

@@ -17,8 +17,4 @@ public interface CommandHandlerContext {
 
     Map<String, Object> props();
 
-/*    interface Progress {
-
-        Object call(CommandHandlerContext context);
-    }*/
 }

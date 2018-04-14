@@ -76,7 +76,7 @@ public abstract class MultipleRequestHandler implements RequestHandler {
                 final Object returnVal = methodMeta.getCaller().apply(parameter);
                 logger.debug("The Reponse Object:" + returnVal);
 //                final Response response = context.responser().objectToResponse(returnVal);
-                return new DefaultResponse.Builder(context.request()).statusCode(400).error(te).build();
+                return new DefaultResponse.Builder(context.request()).error(te).build();
 //                logger.debug("Start response now:" + response.status() + " The type:" + Message.Type.get(response.getTypeCode()));
 //                return response;
             } catch (Throwable te) {

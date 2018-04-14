@@ -2,6 +2,7 @@ package com.kangaroo.producer.http.support;
 
 import com.alibaba.fastjson.JSON;
 import com.kangaroo.Attachment;
+import com.kangaroo.DefaultRequest;
 import com.kangaroo.Header;
 import com.kangaroo.Request;
 import com.kangaroo.internal.observable.DefaultSafeObserver;
@@ -70,7 +71,7 @@ public final class NettyHttpHandlerAdapter implements NettyHttpHandler {
                 } else {
 //                    logger.debug("Is Non Support method:" + request.method());
                     final Header[] headers = initHeader(frequest);
-                    final Request request1 = new Request(getUri(frequest), "".getBytes(), headers);
+                    final Request request1 = new DefaultRequest(getUri(frequest), "".getBytes(), headers);
                     handler.observe(getRequest(frequest))
                             .map((SHttpResponse sres) -> {
                                 return DefaultNettyHttpChannelHandler.buildFullHttpResponse(frequest,sres);
@@ -105,7 +106,7 @@ public final class NettyHttpHandlerAdapter implements NettyHttpHandler {
             final ByteBuf content = request.content();
             byte[] req = new byte[content.readableBytes()];
             content.readBytes(req);
-            resRequest = new Request(requestUri, req, header);
+            resRequest = new DefaultRequest(requestUri, req, header);
         } else {
             if (HttpPostRequestDecoder.isMultipart(request)) {
                 decoder = new HttpPostRequestDecoder(new DefaultHttpDataFactory(true), request);
@@ -182,7 +183,7 @@ public final class NettyHttpHandlerAdapter implements NettyHttpHandler {
             }
             values.put(key, sb.toString());
         }
-        return new Request(getUri(request), JSON.toJSONBytes(values), header);
+        return new DefaultRequest(getUri(request), JSON.toJSONBytes(values), header);
     }
 
 
@@ -271,11 +272,11 @@ public final class NettyHttpHandlerAdapter implements NettyHttpHandler {
         }
 
         if (attachments.isEmpty()) {
-            return new Request(path, payload, header);
+            return new DefaultRequest(path, payload, header);
         }
 
         Attachment[] attaArray = attachments.toArray(new Attachment[attachments.size()]);
-        return new Request(path, payload, header, attaArray);
+        return new DefaultRequest(path, payload, header, attaArray);
 
     }
 }

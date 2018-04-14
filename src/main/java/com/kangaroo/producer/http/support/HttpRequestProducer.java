@@ -1,8 +1,9 @@
 package com.kangaroo.producer.http.support;
 
+import com.kangaroo.Global;
+import com.kangaroo.Proc;
 import com.kangaroo.Producer;
 import com.kangaroo.Request;
-import com.kangaroo.RunProc;
 import com.kangaroo.internal.Wrappers;
 import com.kangaroo.producer.http.*;
 import com.kangaroo.util.Validate;
@@ -22,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Future;
@@ -191,7 +193,7 @@ public abstract class HttpRequestProducer implements Producer {
     }
 
 
-    public RunProc run() {
+    public Proc run() {
 
         if (!this._started.compareAndSet(false, true)) {
             throw new IllegalArgumentException("Is running now");
@@ -221,8 +223,8 @@ public abstract class HttpRequestProducer implements Producer {
 
             logger.info("HttpProducer listen on:" + info.port());
 
-            return new RunProc() {
-                @Override
+            return new Proc() {
+
                 public Future<?> blocking() {
                     try {
                         return future.channel().closeFuture().sync();
@@ -233,8 +235,12 @@ public abstract class HttpRequestProducer implements Producer {
                 }
 
                 @Override
-                public Future<?> halt() {
+                public Global.Context getContext() {
+                    return null;
+                }
 
+                @Override
+                public Future<?> halt() {
                     try {
                         future.channel().close();
                         HttpRequestProducer.this.close();
@@ -242,6 +248,12 @@ public abstract class HttpRequestProducer implements Producer {
                         bossGroup.shutdownGracefully();
                         return workerGroup.shutdownGracefully();
                     }
+                }
+
+                @Override
+                public CompletableFuture<Future<?>> haltFuture() {
+                    Future<Void> closeFuture = future.channel().closeFuture();
+                    return CompletableFuture.completedFuture(closeFuture);
                 }
             };
 

@@ -74,10 +74,8 @@ public class ResourceHandlerInitializer extends RequestHandlerInitializer {
     }
 
     protected String[] defaultFilterTypes() {
-//        return ResourceHandler.DEFAULT_SUFFIX;
         return new String[]{"html", "htm", "js", "css", "png", "jpg", "gif", "woff", "ttf", "ico", "jpeg", "txt"};
     }
-
 
     protected Function<String, String> getUriMapper(String fpath) {
 

@@ -71,20 +71,4 @@ public interface ComponentConfigurable {
             return cDefinitions;
         }
     }
-
-
-/*	Func2<Environment,ComponentConfigurable[],ComponentDefinition[]> DefinitionConverter = new Func2<Environment,ComponentConfigurable[],ComponentDefinition[]>(){
-
-		@Override
-		public ComponentDefinition[] call(ComponentConfigurable... ccs) {
-
-//		ComponentConfigurable[] ccs = ccArray.toArray(new ComponentConfigurable[ccArray.size()]);
-			List<ComponentDefinition> cds = new ArrayList<ComponentDefinition>();
-			for(ComponentConfigurable cc:ccs){
-				ComponentDefinition[] cdArray = cc.getDefinitions(environment);
-				cds.addAll(Arrays.asList(cdArray));
-			}
-			return cds.toArray(new ComponentDefinition[cds.size()]);
-		}
-	};*/
 }
