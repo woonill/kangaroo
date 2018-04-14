@@ -42,7 +42,7 @@ public final class CUtils {
      */
     private static final char PACKAGE_SEPARATOR = '.';
 
-    /** The path separator character '/' */
+    /** The uri separator character '/' */
 //	private static final char PATH_SEPARATOR = '/';
 
     /**
@@ -763,7 +763,7 @@ public final class CUtils {
 
 
     public static String convertResourcePathToClassName(String resourcePath) {
-        Validate.notNull(resourcePath, "Resource path must not be null");
+        Validate.notNull(resourcePath, "Resource uri must not be null");
         return resourcePath.replace('/', '.');
     }
 
@@ -1122,7 +1122,7 @@ public final class CUtils {
 //end method and field =====================================================================================================================================>>
 
 
-    // add class path url
+    // add class uri url
 
 
     public static URL getClassPath(Class<?> theClass) {

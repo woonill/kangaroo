@@ -23,7 +23,7 @@ public class PathRequestHandler implements RequestHandler {
     @Override
     public Response handle(RequestHandlerContext context) {
         if (isMatchedPath(context.request())) {
-            logger.debug("Start handle uri:" + context.request().path() + " with class:" + this.handler.getClass().getName());
+            logger.debug("Start handle uri:" + context.request().uri() + " with class:" + this.handler.getClass().getName());
             return this.handler.handle(context);
         }
         return context.handle();
@@ -36,10 +36,10 @@ public class PathRequestHandler implements RequestHandler {
     }
 
     protected boolean isMatchedPath(Request request) {
-        logger.debug("Source path:" + request);
+        logger.debug("Source uri:" + request);
         for (String path : this.pathSpec) {
-            logger.debug("Source Path:" + path + " input path:" + request.path());
-            if (pm.match(path, request.path())) {
+            logger.debug("Source Path:" + path + " input uri:" + request.uri());
+            if (pm.match(path, request.uri())) {
                 logger.debug("Find matched handler:" + this.handler.getClass().getName());
                 return true;
             }

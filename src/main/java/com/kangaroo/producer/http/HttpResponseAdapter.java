@@ -37,7 +37,7 @@ public class HttpResponseAdapter implements BiFunction<Request, Response, SHttpR
         }
 
         logger.debug("Body:" + res.body());
-        logger.debug("Type:" + Message.Type.get(res.getTypeCode()) + "   ---------------------------------------------->>");
+        logger.debug("Type:" + res.getContentType() + "   ---------------------------------------------->>");
         String contentsType = getContentsType(Message.Type.get(res.getTypeCode()));
         if (Message.Type.none.equals(Message.Type.get(res.getTypeCode()))) {
             return this.noneResponse();

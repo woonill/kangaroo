@@ -20,14 +20,11 @@ public class ResourceHandlerInitializer extends RequestHandlerInitializer {
 
 
     private final String fpath;
-    //    private final String sfsnames;
     private final Function<String, String> uriMapper;
-
 
     public ResourceHandlerInitializer(String name,String fileRootPath) {
         super(name);
-
-        Validate.notNull(fileRootPath, "File path flied name is null");
+        Validate.notNull(fileRootPath, "File uri flied name is null");
         this.fpath = fileRootPath;
         this.uriMapper = this.getUriMapper(fpath);
     }
@@ -41,26 +38,27 @@ public class ResourceHandlerInitializer extends RequestHandlerInitializer {
         logger.debug("Get resource from:" + fpath);
         logger.debug("Filter file :" + Observable.fromArray(fsnames).toString());
 
-        LoggerFactory.getLogger(this.getClass()).info("Input file path:" + fpath);
+        LoggerFactory.getLogger(this.getClass()).info("Input file uri:" + fpath);
         ResourceHandler srh = ResourceHandler.newHandler(Files.getURL(fpath), fsnames);
         return new RequestHandler() {
 
             @Override
             public Response handle(RequestHandlerContext handleContext) {
 
-                logger.debug("Handler html request:" + handleContext.request().path());
+                logger.debug("Handler html request:" + handleContext.request().uri());
                 Request request = handleContext.request();
-                String resPath = handleContext.request().path().indexOf("?") > 0 ? getLastPath(request.path()) : request.path();
+                String resPath = handleContext.request().uri().indexOf("?") > 0 ? getLastPath(request.uri()) : request.uri();
                 logger.debug("ResPath:" + resPath);
 
                 String startPath = uriMapper.apply(resPath);
-                logger.debug("Start path:" + startPath);
+                logger.debug("Start uri:" + startPath);
                 final ResourceHandler.SResource resource = srh.getResource(startPath);
                 if (resource != null) {
                     byte[] contents = resource.getContents();
                     String prefix = resource.name().substring(resource.name().lastIndexOf(".") + 1);
                     Message.Type type = Message.Type.get(prefix);
-                    return handleContext.responser().response(contents, type);
+                    return handleContext.getResponseFactory(request).response(contents,type);
+//                    return handleContext.responser().response(contents, type);
                 }
                 return handleContext.handle();
             }
@@ -86,7 +84,7 @@ public class ResourceHandlerInitializer extends RequestHandlerInitializer {
             @Override
             public String apply(String resPath) {
 
-//                logger.info("The static head path:" + rootPath);
+//                logger.info("The static head uri:" + rootPath);
                 return "/" + resPath.substring(resPath.indexOf(rootPath));
             }
         };

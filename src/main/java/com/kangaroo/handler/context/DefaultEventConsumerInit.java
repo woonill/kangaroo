@@ -1,3 +1,4 @@
+/*
 package com.kangaroo.handler.context;
 
 import com.kangaroo.EventDispacher;
@@ -20,3 +21,4 @@ class DefaultEventConsumerInit implements Function<AbstractRequestHandlerHolderC
         return consumer;
     }
 }
+*/

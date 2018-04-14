@@ -1,6 +1,8 @@
 package com.kangaroo.component.scan;
 
-public class DefaultClassFilter implements ClassFilter {
+import java.util.function.Predicate;
+
+public class DefaultClassFilter implements Predicate<ClassMetadata> {
 
     private String[] annotation;
 
@@ -21,7 +23,7 @@ public class DefaultClassFilter implements ClassFilter {
 
 
     @Override
-    public boolean acceptable(ClassMetadata cmrv) {
+    public boolean test(ClassMetadata cmrv) {
 
         AnnotationMetadata[] anames = cmrv.getAnnotations();
         if (anames.length > 0) {

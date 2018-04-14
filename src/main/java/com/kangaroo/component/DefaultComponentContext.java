@@ -164,12 +164,12 @@ public final class DefaultComponentContext implements ConfigurableComponentConte
 
 
     @Override
-    public ComponentContext creatSub(String path, ComponentDefinition... cc) {
+    public ComponentContext creatSub(String uri, ComponentDefinition... cc) {
         // TODO Auto-generated method stub
         DefaultComponentContext comps = new DefaultComponentContext(this, cc);
 //		comps.cBeanFactory.setParentBeanFactory(this.cBeanFactory);//set Parent Spring BeanFactory
-        if (!children.add(new PathComponentContext(path, comps))) {
-            throw new IllegalArgumentException("ComponentContext :" + path + " found");
+        if (!children.add(new PathComponentContext(uri, comps))) {
+            throw new IllegalArgumentException("ComponentContext :" + uri + " found");
         }
         return comps;
     }

@@ -1,14 +1,12 @@
 package com.kangaroo.handler;
 
 import com.kangaroo.DefaultResponse;
-import com.kangaroo.Message;
 import com.kangaroo.Request;
 import com.kangaroo.Response;
 import com.kangaroo.util.CUtils;
 import com.kangaroo.util.PathBuilder;
 import com.kangaroo.util.PathMatcher;
 import com.kangaroo.util.Validate;
-import io.reactivex.Observable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,7 +47,7 @@ public abstract class MultipleRequestHandler implements RequestHandler {
 
     static final public String getSubPath(String inPath, String rootPath) {
 
-//        System.out.println("In path:"+inPath+" RootPath:"+rootPath);
+//        System.out.println("In uri:"+inPath+" RootPath:"+rootPath);
 
         int sIndex = inPath.indexOf(rootPath);
         if (sIndex < 1) {
@@ -76,9 +74,11 @@ public abstract class MultipleRequestHandler implements RequestHandler {
                 final Object returnVal = methodMeta.getCaller().apply(parameter);
                 logger.debug("The Reponse Object:" + returnVal);
 //                final Response response = context.responser().objectToResponse(returnVal);
-                return new DefaultResponse.Builder(context.request()).error(te).build();
+//                return new DefaultResponse.Builder(context.request()).error(te).build();
 //                logger.debug("Start response now:" + response.status() + " The type:" + Message.Type.get(response.getTypeCode()));
 //                return response;
+                    return context.getResponseFactory(request).response(returnVal);
+
             } catch (Throwable te) {
                 te.printStackTrace();
                 return new DefaultResponse.Builder(context.request()).statusCode(400).error(te).build();
@@ -86,7 +86,7 @@ public abstract class MultipleRequestHandler implements RequestHandler {
 
         }
 
-        logger.info("not supported path handler for:" + request.path());
+        logger.info("not supported uri handler for:" + request.uri());
 
         return context.handle();
     }
@@ -95,8 +95,8 @@ public abstract class MultipleRequestHandler implements RequestHandler {
     public UriMethodMeta getUriMethodMeta(Request request) {
 
         for (UriMethodMeta meta : this.uriMethodMetas) {
-            String sPath = getSubPath(request.path(), meta.getRootPath());
-            logger.debug("Sub Uri Path:" + sPath + "  with root path:" + meta.getRootPath());
+            String sPath = getSubPath(request.uri(), meta.getRootPath());
+            logger.debug("Sub Uri Path:" + sPath + "  with root uri:" + meta.getRootPath());
             if (sPath != null) {
                 if (MultipleRequestHandler.apm.match(meta.getPath(), sPath)) {
                     return meta;
@@ -109,7 +109,7 @@ public abstract class MultipleRequestHandler implements RequestHandler {
 
     protected Object[] getInputParameter(UriMethodMeta meta, Request request) {
 
-        String sPath = getSubPath(request.path(), meta.getRootPath());
+        String sPath = getSubPath(request.uri(), meta.getRootPath());
         Map<String, String> pamaps = MultipleRequestHandler.apm.extractUriTemplateVariables(meta.getPath(), sPath);
         Map<String, Object> omaps = new HashMap<String, Object>();
         Set<String> skey = pamaps.keySet();

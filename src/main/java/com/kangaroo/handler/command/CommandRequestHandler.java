@@ -56,11 +56,13 @@ public class CommandRequestHandler implements RequestHandler {
         try {
             Object rm = this.handler.handle(command, chc);
 //			return context.responser().response(JSON.toJSONBytes(rm),Message.Type.json);
-            return context.responser().objectToResponse(rm);
+//            return context.responser().objectToResponse(rm);
+            return context.getResponseFactory(request).response(rm);
         } catch (Exception te) {
             try {
                 Object obs = this.handler.onError(te, command, chc);
-                return context.responser().objectToResponse(obs);
+//                return context.responser().objectToResponse(obs);
+                return context.getResponseFactory(request).response(obs);
             } catch (Exception e) {
                 onError(e, command, chc);
                 throw new RuntimeException(e);

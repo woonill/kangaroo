@@ -214,7 +214,7 @@ public final class ClassDefinitionUtils {
      *
      * @param <T> type of the class returned
      * @param classLoader Class loader where to search the class
-     * @param className Class name with full path
+     * @param className Class name with full uri
      * @return the class if it already exists or null
      */
     @SuppressWarnings("unchecked")

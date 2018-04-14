@@ -547,10 +547,10 @@ public abstract class StrUtils {
     }
 
     /**
-     * Extract the filename from the given path,
+     * Extract the filename from the given uri,
      * e.g. "mypath/myfile.txt" -> "myfile.txt".
      *
-     * @param path the file path (may be {@code null})
+     * @param path the file uri (may be {@code null})
      * @return the extracted filename, or {@code null} if none
      */
     public static String getFilename(String path) {
@@ -562,10 +562,10 @@ public abstract class StrUtils {
     }
 
     /**
-     * Extract the filename extension from the given path,
+     * Extract the filename extension from the given uri,
      * e.g. "mypath/myfile.txt" -> "txt".
      *
-     * @param path the file path (may be {@code null})
+     * @param path the file uri (may be {@code null})
      * @return the extracted filename extension, or {@code null} if none
      */
     public static String getFilenameExtension(String path) {
@@ -584,11 +584,11 @@ public abstract class StrUtils {
     }
 
     /**
-     * Strip the filename extension from the given path,
+     * Strip the filename extension from the given uri,
      * e.g. "mypath/myfile.txt" -> "mypath/myfile".
      *
-     * @param path the file path (may be {@code null})
-     * @return the path with stripped filename extension,
+     * @param path the file uri (may be {@code null})
+     * @return the uri with stripped filename extension,
      * or {@code null} if none
      */
     public static String stripFilenameExtension(String path) {
@@ -607,13 +607,13 @@ public abstract class StrUtils {
     }
 
     /**
-     * Apply the given relative path to the given path,
+     * Apply the given relative uri to the given uri,
      * assuming standard Java folder separation (i.e. "/" separators).
      *
-     * @param path         the path to start from (usually a full file path)
-     * @param relativePath the relative path to apply
-     *                     (relative to the full file path above)
-     * @return the full file path that results from applying the relative path
+     * @param path         the uri to start from (usually a full file uri)
+     * @param relativePath the relative uri to apply
+     *                     (relative to the full file uri above)
+     * @return the full file uri that results from applying the relative uri
      */
     public static String applyRelativePath(String path, String relativePath) {
         int separatorIndex = path.lastIndexOf(FOLDER_SEPARATOR);
@@ -629,13 +629,13 @@ public abstract class StrUtils {
     }
 
     /**
-     * Normalize the path by suppressing sequences like "path/.." and
+     * Normalize the uri by suppressing sequences like "uri/.." and
      * inner simple dots.
-     * <p>The result is convenient for path comparison. For other uses,
+     * <p>The result is convenient for uri comparison. For other uses,
      * notice that Windows separators ("\") are replaced by simple slashes.
      *
-     * @param path the original path
-     * @return the normalized path
+     * @param path the original uri
+     * @return the normalized uri
      */
     public static String cleanPath(String path) {
         if (path == null) {
@@ -643,8 +643,8 @@ public abstract class StrUtils {
         }
         String pathToUse = replace(path, WINDOWS_FOLDER_SEPARATOR, FOLDER_SEPARATOR);
 
-        // Strip prefix from path to analyze, to not treat it as part of the
-        // first path element. This is necessary to correctly parse paths like
+        // Strip prefix from uri to analyze, to not treat it as part of the
+        // first uri element. This is necessary to correctly parse paths like
         // "file:core/../core/io/Resource.class", where the ".." should just
         // strip the first "core" directory while keeping the "file:" prefix.
         int prefixIndex = pathToUse.indexOf(":");
@@ -667,14 +667,14 @@ public abstract class StrUtils {
             if (CURRENT_PATH.equals(element)) {
                 // Points to current directory - drop it.
             } else if (TOP_PATH.equals(element)) {
-                // Registering top path found.
+                // Registering top uri found.
                 tops++;
             } else {
                 if (tops > 0) {
-                    // Merging path element with element corresponding to top path.
+                    // Merging uri element with element corresponding to top uri.
                     tops--;
                 } else {
-                    // Normal path element found.
+                    // Normal uri element found.
                     pathElements.add(0, element);
                 }
             }
@@ -691,8 +691,8 @@ public abstract class StrUtils {
     /**
      * Compare two paths after normalization of them.
      *
-     * @param path1 first path for comparison
-     * @param path2 second path for comparison
+     * @param path1 first uri for comparison
+     * @param path2 second uri for comparison
      * @return whether the two paths are equivalent after normalization
      */
     public static boolean pathEquals(String path1, String path2) {

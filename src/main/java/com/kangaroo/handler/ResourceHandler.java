@@ -42,8 +42,8 @@ public final class ResourceHandler {
 
 
         for (SResource resource : this.resources) {
-//            logger.debug("The Resource path:"+resource.getPath()+" : ----------------------------------");
-//            logger.debug("Start path:"+startPath);
+//            logger.debug("The Resource uri:"+resource.getPath()+" : ----------------------------------");
+//            logger.debug("Start uri:"+startPath);
             if (resource.getPath().equalsIgnoreCase(requestURI)) {
 //                long id = resource.file.lastModified()
                 return resource;

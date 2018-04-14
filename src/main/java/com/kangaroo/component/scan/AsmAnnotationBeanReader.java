@@ -14,10 +14,10 @@ import java.util.function.Predicate;
 
 public class AsmAnnotationBeanReader {
 
-    private ClassFilter classFilter;
+    private Predicate<ClassMetadata> classFilter;
     private URL rootUrl;
 
-    public AsmAnnotationBeanReader(ClassFilter cf, URL croot) {
+    public AsmAnnotationBeanReader(Predicate<ClassMetadata> cf, URL croot) {
         this.classFilter = cf;
         this.rootUrl = croot;
     }
@@ -94,14 +94,14 @@ public class AsmAnnotationBeanReader {
     }
 
 
-    public final Class<?> readClass(InputStream is, ClassFilter classFilter) {
+    public final Class<?> readClass(InputStream is, Predicate<ClassMetadata> classFilter) {
         try {
             DataInputStream dstream = new DataInputStream(new BufferedInputStream(is));
             try {
                 ClassMetadataReadingVisitor cmrv = new ClassMetadataReadingVisitor();
                 ClassReader cf = new ClassReader(dstream);
                 cf.accept(cmrv, ClassReader.SKIP_DEBUG);
-                if (classFilter != null && classFilter.acceptable(cmrv)) {
+                if (classFilter != null && classFilter.test(cmrv)) {
                     return CUtils.forName(cmrv.getClassName(), null);
                 }
             } finally {
@@ -130,7 +130,7 @@ public class AsmAnnotationBeanReader {
                             ClassMetadataReadingVisitor cmrv = new ClassMetadataReadingVisitor();
                             ClassReader cf = new ClassReader(dstream);
                             cf.accept(cmrv, ClassReader.SKIP_DEBUG);
-                            if (classFilter.acceptable(cmrv)) {
+                            if (classFilter.test(cmrv)) {
                                 Class<?> clazz = CUtils.forName(cmrv.getClassName(), null);
                                 clazzes.add(clazz);
                             }

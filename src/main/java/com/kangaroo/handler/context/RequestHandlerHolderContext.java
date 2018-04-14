@@ -55,9 +55,6 @@ public abstract class RequestHandlerHolderContext implements Consumer.Context,Ha
         return this.parentContext.getComponentFactory();
     }
 
-
-    private Map<String, Observer<EventDispacher.Event>> globalEventConsumers = new ConcurrentHashMap<>();
-
     public RequestHandlerHolderPipeline toHolderPipeline() {
         return new RequestHandlerHolderPipelineSComposite(this.holders);
     }
@@ -67,7 +64,7 @@ public abstract class RequestHandlerHolderContext implements Consumer.Context,Ha
         RequestHandlerHolderPipeline pipeline = toHolderPipeline();
         final AtomicBoolean _isRespnosed = new AtomicBoolean(false);
         final Map<String, Object> globalProps = new ConcurrentHashMap<>();
-        final List<EventDispacher.Event> tempEventList = new LinkedList<>();
+//        final List<EventDispacher.Event> tempEventList = new LinkedList<>();
 
         return new RequestHandlerContext() {
 
@@ -117,6 +114,11 @@ public abstract class RequestHandlerHolderContext implements Consumer.Context,Ha
             @Override
             public Map<String, Object> props() {
                 return Collections.unmodifiableMap(globalProps);
+            }
+
+            @Override
+            public Response.Factory getResponseFactory(Request request) {
+                return null;
             }
 
 

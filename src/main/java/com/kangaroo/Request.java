@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface Request extends java.io.Serializable {
 
-    String path();
+    String id();
+    String uri();
     byte[] payload();
     Object getAttribute(String key);
     Collection<Header> headers();

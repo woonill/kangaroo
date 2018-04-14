@@ -56,9 +56,14 @@ public class DefaultResponse implements Response, java.io.Serializable {
         return status;
     }
 
-    public boolean isError() {
-        return getError() != null;
+    @Override
+    public Type getContentType() {
+        return contentsType;
     }
+
+//    public boolean isError() {
+//        return getError() != null;
+//    }
 
     public boolean isNone() {
         return Type.none.equals(this.contentsType);
@@ -68,9 +73,9 @@ public class DefaultResponse implements Response, java.io.Serializable {
         return contentsType.code();
     }
 
-    public Throwable getError() {
-        return error;
-    }
+//    public Throwable getError() {
+//        return error;
+//    }
 
     public final String requestId() {
         return requestId;
@@ -84,6 +89,11 @@ public class DefaultResponse implements Response, java.io.Serializable {
     public String[] getHeaderKeys() {
         final Set<String> strings = consVal.keySet();
         return new LinkedList<String>(strings).toArray(new String[strings.size()]);
+    }
+
+    @Override
+    public <T> T to(Global.WriterAdapter<T> adapter) {
+        return null;
     }
 
 

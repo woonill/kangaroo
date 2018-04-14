@@ -326,7 +326,7 @@ public final class Files {
             file2.delete();
         }
         try {
-//			logger.debug("Start Create new File["+file2.getName()+"] to path["+file2.getPath()+"]");
+//			logger.debug("Start Create new File["+file2.getName()+"] to uri["+file2.getPath()+"]");
             file2.createNewFile();
         } catch (IOException e1) {
             e1.printStackTrace();

@@ -33,7 +33,7 @@ public class PathMatcher {
     private static final Pattern VARIABLE_PATTERN = Pattern.compile("\\{[^/]+?\\}");
 
     /**
-     * Default path separator: "/"
+     * Default uri separator: "/"
      */
     public static final String DEFAULT_PATH_SEPARATOR = "/";
 
@@ -49,7 +49,7 @@ public class PathMatcher {
 
 
     /**
-     * Set the path separator to use for pattern parsing.
+     * Set the uri separator to use for pattern parsing.
      * Default is "/", as in Ant.
      */
     public void setPathSeparator(String pathSeparator) {
@@ -232,7 +232,7 @@ public class PathMatcher {
     }
 
     /**
-     * Given a pattern and a full path, determine the pattern-mapped part. <p>For example: <ul>
+     * Given a pattern and a full uri, determine the pattern-mapped part. <p>For example: <ul>
      * <li>'{@code /docs/cvs/commit.html}' and '{@code /docs/cvs/commit.html} -> ''</li>
      * <li>'{@code /docs/*}' and '{@code /docs/cvs/commit} -> '{@code cvs/commit}'</li>
      * <li>'{@code /docs/cvs/*.html}' and '{@code /docs/cvs/commit.html} -> '{@code commit.html}'</li>
@@ -241,7 +241,7 @@ public class PathMatcher {
      * <li>'{@code /*.html}' and '{@code /docs/cvs/commit.html} -> '{@code docs/cvs/commit.html}'</li>
      * <li>'{@code *.html}' and '{@code /docs/cvs/commit.html} -> '{@code /docs/cvs/commit.html}'</li>
      * <li>'{@code *}' and '{@code /docs/cvs/commit.html} -> '{@code /docs/cvs/commit.html}'</li> </ul>
-     * <p>Assumes that {@link #match} returns {@code true} for '{@code pattern}' and '{@code path}', but
+     * <p>Assumes that {@link #match} returns {@code true} for '{@code pattern}' and '{@code uri}', but
      * does <strong>not</strong> enforce this.
      */
     public String extractPathWithinPattern(String pattern, String path) {
@@ -250,7 +250,7 @@ public class PathMatcher {
 
         StringBuilder builder = new StringBuilder();
 
-        // Add any path parts that have a wildcarded pattern part.
+        // Add any uri parts that have a wildcarded pattern part.
         int puts = 0;
         for (int i = 0; i < patternParts.length; i++) {
             String patternPart = patternParts[i];
@@ -263,7 +263,7 @@ public class PathMatcher {
             }
         }
 
-        // Append any trailing path parts.
+        // Append any trailing uri parts.
         for (int i = patternParts.length; i < pathParts.length; i++) {
             if (puts > 0 || i > 0) {
                 builder.append(this.pathSeparator);
@@ -352,16 +352,16 @@ public class PathMatcher {
     }
 
     /**
-     * Given a full path, returns a {@link Comparator} suitable for sorting patterns in order of explicitness.
+     * Given a full uri, returns a {@link Comparator} suitable for sorting patterns in order of explicitness.
      * <p>The returned {@code Comparator} will {@linkplain java.util.Collections#sort(List,
      * Comparator) sort} a list so that more specific patterns (without uri templates or wild cards) come before
      * generic patterns. So given a list with the following patterns: <ol> <li>{@code /hotels/new}</li>
      * <li>{@code /hotels/{hotel}}</li> <li>{@code /hotels/*}</li> </ol> the returned comparator will sort this
      * list so that the order will be as indicated.
-     * <p>The full path given as parameter is used to test for exact matches. So when the given path is {@code /hotels/2},
+     * <p>The full uri given as parameter is used to test for exact matches. So when the given uri is {@code /hotels/2},
      * the pattern {@code /hotels/2} will be sorted before {@code /hotels/1}.
      *
-     * @param path the full path to use for comparison
+     * @param path the full uri to use for comparison
      * @return a comparator capable of sorting patterns in order of explicitness
      */
     public Comparator<String> getPatternComparator(String path) {

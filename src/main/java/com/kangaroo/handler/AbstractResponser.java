@@ -6,7 +6,7 @@ import com.kangaroo.Request;
 import com.kangaroo.Response;
 import com.kangaroo.util.Validate;
 
-public abstract class AbstractResponser implements Request.Responser {
+public class AbstractResponser implements Response.Factory {
 
 
     private Request request;
@@ -55,12 +55,27 @@ public abstract class AbstractResponser implements Request.Responser {
     }
 
     @Override
+    public Response error(int status, Throwable te, String message) {
+        return null;
+    }
+
+    @Override
+    public Response response(int status, Object object) {
+        return null;
+    }
+
+    @Override
     public Response response(int statusCode, byte[] contents, Message.Type type) {
         return new DefaultResponse.Builder(request)
                 .payload(contents)
                 .statusCode(statusCode)
                 .theType(type)
                 .build();
+    }
+
+    @Override
+    public Response response(Object object) {
+        return null;
     }
 
     @Override

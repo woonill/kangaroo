@@ -76,7 +76,7 @@ public class DefaultRequest implements Request{
         return this;
     }
 
-    public String path() {
+    public String uri() {
         return this.path;
     }
     public byte[] payload() {

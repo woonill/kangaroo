@@ -1,52 +1,44 @@
 package com.kangaroo;
 
-import java.util.Optional;
+import java.util.Collections;
+import java.util.Map;
 
-public interface Response {
+public interface Response extends Global.SObject{
 
     byte[] body();
 
-    boolean isNone();
-
+    String requestId();
     int status();
+    Message.Type getContentType();
+    default Map<String,String> props(){
+        return Collections.EMPTY_MAP;
+    };
 
-    boolean isError();
-
-    int getTypeCode();
-
-    default Throwable getError() {
-        return null;
-    }
-
+/*
     Optional<String> getHeaderVal(String key);
-
     String[] getHeaderKeys();
+*/
 
-    public static interface ResponseBuilder {
 
-        Response errorResonse(Throwable e);
+    public interface Factory {
 
-        Response errorResonse(int i, Throwable te);
+        Response error(int status, Throwable te,String message);
+        Response response(int status,Object object);
+        Response response(int status,byte[] contents, Message.Type type);
 
+        Response response(Object object);
         Response response(byte[] contents, Message.Type type);
 
+    }
+
+
+/*    public static interface ResponseBuilder {
+
+        Response errorResonse(Throwable e);
+        Response errorResonse(int i, Throwable te);
+        Response response(byte[] contents, Message.Type type);
         Response response(int statusCode, byte[] contents, Message.Type type);
-
         Response noneResponse();
-
         Response errorResonse(int status, String errorMsg, Throwable te);
-    }
-
-
-    public interface ResponserFactory {
-
-
-        Responser get(Request request);
-    }
-
-
-    public interface Responser extends ResponseBuilder {
-        Response objectToResponse(Object obj);
-
-    }
+    }*/
 }

@@ -595,7 +595,7 @@ public final class SHttpResponse {
 
 //        void setValue(String value);
 //        void setDomain(String domain);
-//        void setPath(String path);
+//        void setPath(String uri);
 //        void setComment(String comment);
 //        void setMaxAge(long maxAge);
 //        void setVersion(int version);

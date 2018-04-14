@@ -2,7 +2,9 @@ package com.kangaroo.component.scan;
 
 import com.kangaroo.util.CUtils;
 
-public class InterfaceClassFilter implements ClassFilter {
+import java.util.function.Predicate;
+
+public class InterfaceClassFilter implements Predicate<ClassMetadata> {
 
     private Class<?> interfaces;
 
@@ -11,7 +13,7 @@ public class InterfaceClassFilter implements ClassFilter {
     }
 
     @Override
-    public boolean acceptable(ClassMetadata cmrv) {
+    public boolean test(ClassMetadata cmrv) {
         Class<?> clazz = CUtils.forName(cmrv.getClassName());
         return interfaces.isAssignableFrom(clazz);
     }

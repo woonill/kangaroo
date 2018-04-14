@@ -20,4 +20,6 @@ public interface RequestHandlerContext {
     Response handle(Map<String, Object> props);
 
     Map<String, Object> props();
+
+    Response.Factory getResponseFactory(Request request);
 }

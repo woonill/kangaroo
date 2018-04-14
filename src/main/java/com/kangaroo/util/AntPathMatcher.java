@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public final class AntPathMatcher {
 
     /**
-     * Default path separator: "/"
+     * Default uri separator: "/"
      */
     public static final String DEFAULT_PATH_SEPARATOR = "/";
 
@@ -42,9 +42,9 @@ public final class AntPathMatcher {
     }
 
     /**
-     * A convenience alternative constructor to use with a custom path separator.
+     * A convenience alternative constructor to use with a custom uri separator.
      *
-     * @param pathSeparator the path separator to use, must not be {@code null}.
+     * @param pathSeparator the uri separator to use, must not be {@code null}.
      * @since 4.1
      */
     public AntPathMatcher(String pathSeparator) {
@@ -55,7 +55,7 @@ public final class AntPathMatcher {
 
 
     /**
-     * Set the path separator to use for pattern parsing.
+     * Set the uri separator to use for pattern parsing.
      * Default is "/", as in Ant.
      */
     public void setPathSeparator(String pathSeparator) {
@@ -107,13 +107,13 @@ public final class AntPathMatcher {
     }
 
     /**
-     * Actually match the given {@code path} against the given {@code pattern}.
+     * Actually match the given {@code uri} against the given {@code pattern}.
      *
      * @param pattern   the pattern to match against
-     * @param path      the path String to test
+     * @param path      the uri String to test
      * @param fullMatch whether a full pattern match is required (else a pattern match
-     *                  as far as the given base path goes is sufficient)
-     * @return {@code true} if the supplied {@code path} matched, {@code false} if it didn't
+     *                  as far as the given base uri goes is sufficient)
+     * @return {@code true} if the supplied {@code uri} matched, {@code false} if it didn't
      */
     protected boolean doMatch(String pattern, String path, boolean fullMatch, Map<String, String> uriTemplateVariables) {
         if (path.startsWith(this.pathSeparator) != pattern.startsWith(this.pathSeparator)) {
@@ -239,7 +239,7 @@ public final class AntPathMatcher {
     }
 
     /**
-     * Tokenize the given path pattern into parts, based on this matcher's settings.
+     * Tokenize the given uri pattern into parts, based on this matcher's settings.
      * <p>Performs caching based on {@link #setCachePatterns}, delegating to
      * {@link #tokenizePath(String)} for the actual tokenization algorithm.
      *
@@ -269,10 +269,10 @@ public final class AntPathMatcher {
     }
 
     /**
-     * Tokenize the given path String into parts, based on this matcher's settings.
+     * Tokenize the given uri String into parts, based on this matcher's settings.
      *
-     * @param path the path to tokenize
-     * @return the tokenized path parts
+     * @param path the uri to tokenize
+     * @return the tokenized uri parts
      */
     protected String[] tokenizePath(String path) {
         return StringUtils.tokenizeToStringArray(path, this.pathSeparator, this.trimTokens, true);
@@ -326,7 +326,7 @@ public final class AntPathMatcher {
     }
 
     /**
-     * Given a pattern and a full path, determine the pattern-mapped part. <p>For example: <ul>
+     * Given a pattern and a full uri, determine the pattern-mapped part. <p>For example: <ul>
      * <li>'{@code /docs/cvs/commit.html}' and '{@code /docs/cvs/commit.html} -> ''</li>
      * <li>'{@code /docs/*}' and '{@code /docs/cvs/commit} -> '{@code cvs/commit}'</li>
      * <li>'{@code /docs/cvs/*.html}' and '{@code /docs/cvs/commit.html} -> '{@code commit.html}'</li>
@@ -335,7 +335,7 @@ public final class AntPathMatcher {
      * <li>'{@code /*.html}' and '{@code /docs/cvs/commit.html} -> '{@code docs/cvs/commit.html}'</li>
      * <li>'{@code *.html}' and '{@code /docs/cvs/commit.html} -> '{@code /docs/cvs/commit.html}'</li>
      * <li>'{@code *}' and '{@code /docs/cvs/commit.html} -> '{@code /docs/cvs/commit.html}'</li> </ul>
-     * <p>Assumes that {@link #match} returns {@code true} for '{@code pattern}' and '{@code path}', but
+     * <p>Assumes that {@link #match} returns {@code true} for '{@code pattern}' and '{@code uri}', but
      * does <strong>not</strong> enforce this.
      */
     public String extractPathWithinPattern(String pattern, String path) {
@@ -438,16 +438,16 @@ public final class AntPathMatcher {
     }
 
     /**
-     * Given a full path, returns a {@link Comparator} suitable for sorting patterns in order of explicitness.
+     * Given a full uri, returns a {@link Comparator} suitable for sorting patterns in order of explicitness.
      * <p>The returned {@code Comparator} will {@linkplain Collections#sort(List,
      * Comparator) sort} a list so that more specific patterns (without uri templates or wild cards) come before
      * generic patterns. So given a list with the following patterns: <ol> <li>{@code /hotels/new}</li>
      * <li>{@code /hotels/{hotel}}</li> <li>{@code /hotels/*}</li> </ol> the returned comparator will sort this
      * list so that the order will be as indicated.
-     * <p>The full path given as parameter is used to test for exact matches. So when the given path is {@code /hotels/2},
+     * <p>The full uri given as parameter is used to test for exact matches. So when the given uri is {@code /hotels/2},
      * the pattern {@code /hotels/2} will be sorted before {@code /hotels/1}.
      *
-     * @param path the full path to use for comparison
+     * @param path the full uri to use for comparison
      * @return a comparator capable of sorting patterns in order of explicitness
      */
     public Comparator<String> getPatternComparator(String path) {
@@ -559,7 +559,7 @@ public final class AntPathMatcher {
 
         /**
          * Compare two patterns to determine which should match first, i.e. which
-         * is the most specific regarding the current path.
+         * is the most specific regarding the current uri.
          *
          * @return a negative integer, zero, or a positive integer as pattern1 is
          * more specific, equally specific, or less specific than pattern2.
@@ -709,7 +709,7 @@ public final class AntPathMatcher {
 
 
     /**
-     * A simple cache for patterns that depend on the configured path separator.
+     * A simple cache for patterns that depend on the configured uri separator.
      */
     private static class PathSeparatorPatternCache {
 
