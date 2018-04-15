@@ -1,9 +1,8 @@
 package com.kangaroo.producer.http.support;
 
-import com.alibaba.fastjson.JSON;
+import com.kangaroo.internal.fastjson.JSON;
 import com.kangaroo.*;
 import com.kangaroo.internal.observable.DefaultSafeObserver;
-import com.kangaroo.producer.http.HttpResponseAdapter;
 import com.kangaroo.producer.http.SHttpResponse;
 import com.kangaroo.util.StrUtils;
 import io.netty.buffer.ByteBuf;
@@ -34,15 +33,19 @@ public class SimpleNettyHttpHandler implements NettyHttpHandler {
     private RequestObserver requestSubscriber;
     private BiFunction<Request, Response, SHttpResponse> responseFunc2;
 
-    public SimpleNettyHttpHandler(RequestObserver handler) {
+/*    public SimpleNettyHttpHandler(RequestObserver handler) {
         this(handler, new HttpResponseAdapter());
-    }
+    }*/
 
     public SimpleNettyHttpHandler(RequestObserver handler, BiFunction<Request, Response, SHttpResponse> resHandler) {
         this.requestSubscriber = handler;
         this.responseFunc2 = resHandler;
     }
 
+
+    protected Logger logger(){
+        return this.logger;
+    }
 
     @Override
     public Observable<FullHttpResponse> observe(FullHttpRequest fullHttpRequest) {
@@ -94,11 +97,6 @@ public class SimpleNettyHttpHandler implements NettyHttpHandler {
         //            private HttpDataFactory factory;
         private FullHttpRequest request = null;
         private Logger logger = LoggerFactory.getLogger(this.getClass());
-
-
-        private Logger logger() {
-            return this.logger;
-        }
 
         public NettyHttpData(FullHttpRequest req) {
 //                this.factory = factory;
@@ -212,7 +210,7 @@ public class SimpleNettyHttpHandler implements NettyHttpHandler {
                     if (data != null) {
                         try {
                             if (InterfaceHttpData.HttpDataType.FileUpload.equals(data.getHttpDataType())) {
-                                logger().debug("Start handler upload file");
+                                logger.debug("Start handler upload file");
                                 FileUpload fu = (FileUpload) data;
                                 if (fu.isCompleted()) {
                                     File file = fu.getFile();
@@ -221,7 +219,7 @@ public class SimpleNettyHttpHandler implements NettyHttpHandler {
                             } else {
                                 Attribute ma = (Attribute) data;
                                 ma.setCharset(Charset.forName("UTF-8"));
-                                logger().debug("Post Attribute name:" + ma.getName() + " Post Value:" + ma.getValue());
+                                logger.debug("Post Attribute name:" + ma.getName() + " Post Value:" + ma.getValue());
                                 textValues.put(ma.getName(), ma.getValue());
                             }
                         } catch (IOException e) {

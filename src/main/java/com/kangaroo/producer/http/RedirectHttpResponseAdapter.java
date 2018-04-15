@@ -1,3 +1,4 @@
+/*
 package com.kangaroo.producer.http;
 
 import com.kangaroo.Header;
@@ -6,9 +7,11 @@ import com.kangaroo.Request;
 import com.kangaroo.Response;
 import com.kangaroo.util.StrUtils;
 
+*/
 /**
  * Created by woonill on 6/2/16.
- */
+ *//*
+
 public final class RedirectHttpResponseAdapter implements HttpResponseAdapter.HeaderCreator {
 
 
@@ -26,3 +29,4 @@ public final class RedirectHttpResponseAdapter implements HttpResponseAdapter.He
         return null;
     }
 }
+*/

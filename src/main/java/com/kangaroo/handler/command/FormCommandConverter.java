@@ -3,7 +3,7 @@ package kangaroo.handler.command;*/
 /*
 package com.kangaroo.handler.command;
 
-import com.alibaba.fastjson.JSON;
+import JSON;
 import com.kangaroo.Request;
 import com.kangaroo.util.StrUtils;
 import org.slf4j.Logger;

@@ -5,12 +5,14 @@ import com.kangaroo.handler.RequestHandler;
 import com.kangaroo.handler.RequestHandlerContext;
 import com.kangaroo.handler.RequestHandlerInitializer;
 import com.kangaroo.util.PathBuilder;
-import io.reactivex.Observer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -25,7 +27,7 @@ public abstract class RequestHandlerHolderContext implements Consumer.Context,Ha
     private RequestHandlerHolder[] holders;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public RequestHandlerHolderContext(Consumer.Context csContext, RequestHandlerHolder[] holders2) {
+    public RequestHandlerHolderContext(Consumer.Context csContext, RequestHandlerHolder... holders2) {
         this.parentContext = csContext;
         this.holders = holders2;
     }
@@ -93,7 +95,7 @@ public abstract class RequestHandlerHolderContext implements Consumer.Context,Ha
 
 //                    logger.debug("Status:"+response.status()+" Type:"+ Message.Type.get(response.getTypeCode())+" body:"+new String(response.body()));
 
-                    if (response != null && !response.isNone()) {
+                    if (response != null) {
                         _isRespnosed.compareAndSet(false, true);
                         return response;
                     }
@@ -147,7 +149,7 @@ public abstract class RequestHandlerHolderContext implements Consumer.Context,Ha
         };
     }
 
-    public static abstract class DefaultHandlerContextFactory implements HandlerContextFactory<RequestHandlerHolderContext>{
+    public static abstract class DefaultHandlerContextFactory implements Global.ContextFactory<RequestHandlerHolderContext>{
 
         private Logger logger = LoggerFactory.getLogger(this.getClass());
         private String handleRoot;

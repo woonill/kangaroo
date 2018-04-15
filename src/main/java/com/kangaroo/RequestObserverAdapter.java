@@ -15,6 +15,7 @@ public class RequestObserverAdapter implements RequestObserver{
 
     @Override
     public Observable<Response> observe(Request request) {
-        return handler.observe(request);
+//        return handler.observe(request);
+        return null;
     }
 }

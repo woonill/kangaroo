@@ -6,8 +6,7 @@ import com.kangaroo.Request;
 import com.kangaroo.Response;
 import com.kangaroo.util.Validate;
 
-public class AbstractResponser implements Response.Factory {
-
+public abstract class AbstractResponser implements Response.Factory {
 
     private Request request;
 
@@ -19,31 +18,10 @@ public class AbstractResponser implements Response.Factory {
         this.request = requst;
     }
 
-
     protected Request request() {
         return request;
     }
 
-    @Override
-    public Response errorResonse(Throwable e) {
-
-        return new DefaultResponse.Builder(request)
-                .statusCode(Message.BAD_REQUEST)
-                .error(e)
-                .theType(Message.Type.error)
-                .build();
-    }
-
-    @Override
-    public Response errorResonse(int i, Throwable e) {
-
-
-        return new DefaultResponse.Builder(request)
-                .statusCode(i)
-                .error(e)
-                .theType(Message.Type.error)
-                .build();
-    }
 
     @Override
     public Response response(byte[] contents, Message.Type type) {
@@ -55,14 +33,16 @@ public class AbstractResponser implements Response.Factory {
     }
 
     @Override
-    public Response error(int status, Throwable te, String message) {
-        return null;
+    public Response error(int status, Throwable e, String message) {
+
+        return new DefaultResponse.Builder(request)
+                .statusCode(status)
+                .error(e)
+                .theType(Message.Type.error)
+                .build();
+
     }
 
-    @Override
-    public Response response(int status, Object object) {
-        return null;
-    }
 
     @Override
     public Response response(int statusCode, byte[] contents, Message.Type type) {
@@ -78,22 +58,12 @@ public class AbstractResponser implements Response.Factory {
         return null;
     }
 
-    @Override
     public Response noneResponse() {
 
         return new DefaultResponse.Builder(request)
                 .payload("".getBytes())
                 .statusCode(200)
                 .theType(Message.Type.none)
-                .build();
-    }
-
-    @Override
-    public Response errorResonse(int status, String errorMsg, Throwable e) {
-        return new DefaultResponse.Builder(request)
-                .statusCode(status)
-                .error(e)
-                .theType(Message.Type.error)
                 .build();
     }
 }

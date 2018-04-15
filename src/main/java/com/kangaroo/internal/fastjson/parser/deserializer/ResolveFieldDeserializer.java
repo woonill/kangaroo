@@ -1,0 +1,99 @@
+package com.kangaroo.internal.fastjson.parser.deserializer;
+
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import com.kangaroo.internal.fastjson.JSONArray;
+
+@SuppressWarnings("rawtypes")
+public final class ResolveFieldDeserializer extends com.kangaroo.internal.fastjson.parser.deserializer.FieldDeserializer {
+
+    private final int               index;
+    private final List              list;
+    private final com.kangaroo.internal.fastjson.parser.DefaultJSONParser parser;
+    
+    private final Object              key;
+    private final Map map;
+    
+    private final Collection collection;
+
+    public ResolveFieldDeserializer(com.kangaroo.internal.fastjson.parser.DefaultJSONParser parser, List list, int index){
+        super(null, null);
+        this.parser = parser;
+        this.index = index;
+        this.list = list;
+        
+        key = null;
+        map = null;
+        
+        collection = null;
+    }
+    
+    public ResolveFieldDeserializer(Map map, Object index){
+        super(null, null);
+        
+        this.parser = null;
+        this.index = -1;
+        this.list = null;
+        
+        this.key = index;
+        this.map = map;
+        
+        collection = null;
+    }
+    
+    public ResolveFieldDeserializer(Collection collection){
+        super(null, null);
+        
+        this.parser = null;
+        this.index = -1;
+        this.list = null;
+        
+        key = null;
+        map = null;
+        
+        this.collection = collection;
+    }
+
+    @SuppressWarnings("unchecked")
+    public void setValue(Object object, Object value) {
+        if (map != null) {
+            map.put(key, value);
+            return;
+        }
+        
+        if (collection != null) {
+            collection.add(value);
+            return;
+        }
+        
+        list.set(index, value);
+
+        if (list instanceof JSONArray) {
+            JSONArray jsonArray = (JSONArray) list;
+            Object array = jsonArray.getRelatedArray();
+
+            if (array != null) {
+                int arrayLength = Array.getLength(array);
+
+                if (arrayLength > index) {
+                    Object item;
+                    if (jsonArray.getComponentType() != null) {
+                        item = com.kangaroo.internal.fastjson.util.TypeUtils.cast(value, jsonArray.getComponentType(), parser.getConfig());
+                    } else {
+                        item = value;
+                    }
+                    Array.set(array, index, item);
+                }
+            }
+        }
+    }
+
+    public void parseField(com.kangaroo.internal.fastjson.parser.DefaultJSONParser parser, Object object, Type objectType, Map<String, Object> fieldValues) {
+
+    }
+
+}

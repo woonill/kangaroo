@@ -1,3 +1,4 @@
+/*
 package com.kangaroo.producer.http;
 
 import com.kangaroo.Header;
@@ -15,9 +16,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 
+*/
 /**
  * Created by woonill on 10/9/15.
- */
+ *//*
+
 public class HttpResponseAdapter implements BiFunction<Request, Response, SHttpResponse> {
 
 
@@ -164,3 +167,4 @@ public class HttpResponseAdapter implements BiFunction<Request, Response, SHttpR
     }
 
 }
+*/

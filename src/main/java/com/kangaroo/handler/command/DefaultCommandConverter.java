@@ -1,7 +1,7 @@
 package com.kangaroo.handler.command;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.kangaroo.internal.fastjson.JSON;
+import com.kangaroo.internal.fastjson.JSONObject;
 import com.kangaroo.Request;
 import com.kangaroo.util.StrUtils;
 import org.slf4j.Logger;

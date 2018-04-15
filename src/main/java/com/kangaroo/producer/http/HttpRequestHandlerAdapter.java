@@ -24,9 +24,9 @@ public abstract class HttpRequestHandlerAdapter implements HttpRequestHandler {
 
     private final BiFunction<Request, Response, SHttpResponse> adapterFunc;
 
-    public HttpRequestHandlerAdapter() {
+ /*   public HttpRequestHandlerAdapter() {
         this(new HttpResponseAdapter());
-    }
+    }*/
 
     public HttpRequestHandlerAdapter(BiFunction<Request, Response, SHttpResponse> adapterFunc2) {
 
@@ -78,10 +78,10 @@ public abstract class HttpRequestHandlerAdapter implements HttpRequestHandler {
             this.subscribers = in;
         }
 
-        public DefaultHttpRequestSubscriberAdapter(RequestObserver in) {
+/*        public DefaultHttpRequestSubscriberAdapter(RequestObserver in) {
             super();
             this.subscribers = in;
-        }
+        }*/
 
         @Override
         protected Observable<Response> subscribe(Request request) {

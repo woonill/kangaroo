@@ -108,7 +108,7 @@ public abstract class AbstractConsumer<C extends Consumer.Context> implements Co
             return this;
         }
 
-        public <T extends Consumer.Context> Consumer<T> build(HandlerContextFactory<T> configure){
+        public <T extends Consumer.Context> Consumer<T> build(Global.ContextFactory<T> configure){
             Consumer.Context context = new InternalContext(this.props,this.componentFactory);
             final T contextWrapper = configure.build(context);
             return new AbstractConsumer(this.name) {

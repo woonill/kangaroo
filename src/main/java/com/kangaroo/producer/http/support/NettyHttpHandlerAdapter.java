@@ -1,6 +1,6 @@
 package com.kangaroo.producer.http.support;
 
-import com.alibaba.fastjson.JSON;
+import com.kangaroo.internal.fastjson.JSON;
 import com.kangaroo.Attachment;
 import com.kangaroo.DefaultRequest;
 import com.kangaroo.Header;
