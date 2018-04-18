@@ -12,7 +12,7 @@ public final class DefaultCommandHandler implements CommandHandler {
     @Override
     public Object handle(Command command, CommandHandlerContext context) {
         if (AbstractCommand.class.isAssignableFrom(command.getClass())) {
-            context.components().injector().get(command);
+            context.components().get(command);
             logger.info("Find AbstractCommand start handle it and to Response");
             AbstractCommand scommand = ((AbstractCommand) command);
             try {

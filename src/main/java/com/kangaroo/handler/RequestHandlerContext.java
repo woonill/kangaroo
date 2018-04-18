@@ -1,7 +1,7 @@
 package com.kangaroo.handler;
 
 
-import com.kangaroo.ComponentContext;
+import com.kangaroo.ComponentFactory;
 import com.kangaroo.Request;
 import com.kangaroo.Response;
 
@@ -13,9 +13,7 @@ public interface RequestHandlerContext {
 
     Request request();
 
-    ComponentContext getComponents();
-
-    ComponentContext getComponents(String name);
+    ComponentFactory getComponents();
 
     Response handle(Map<String, Object> props);
 

@@ -96,7 +96,7 @@ public class CommandRequestHandler implements RequestHandler {
         }
 
         @Override
-        public ComponentContext components() {
+        public ComponentFactory components() {
             return reqContext.getComponents();
         }
 

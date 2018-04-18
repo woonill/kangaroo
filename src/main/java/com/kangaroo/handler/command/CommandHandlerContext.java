@@ -1,7 +1,7 @@
 package com.kangaroo.handler.command;
 
 import com.kangaroo.Attachment;
-import com.kangaroo.ComponentContext;
+import com.kangaroo.ComponentFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +11,7 @@ public interface CommandHandlerContext {
 
     Object prop(String key);
 
-    ComponentContext components();
+    ComponentFactory components();
 
     List<Attachment> getAttachment();
 

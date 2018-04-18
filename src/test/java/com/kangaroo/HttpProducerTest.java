@@ -6,12 +6,9 @@ import com.kangaroo.handler.RequestHandlerContext;
 import com.kangaroo.handler.RequestHandlerInitializer;
 import com.kangaroo.handler.context.RequestHandlerHolderContext;
 import com.kangaroo.producer.http.HttpRequestHandler;
-import com.kangaroo.producer.http.HttpRequestHandlerAdapter;
-import com.kangaroo.producer.http.SHttpResponse;
 import com.kangaroo.producer.http.support.HttpRequestProducer;
 
 import java.util.concurrent.Future;
-import java.util.function.BiFunction;
 
 public class HttpProducerTest {
 
@@ -63,8 +60,9 @@ public class HttpProducerTest {
                             .build(new HttpRequestProducer.HttpRequestHandlerInit() {
                                 @Override
                                 public HttpRequestHandler get() {
-                                    return new HttpRequestHandlerAdapter
-                                            .DefaultHttpRequestSubscriberAdapter(null);
+/*                                    return new HttpRequestHandlerAdapter
+                                            .DefaultHttpRequestSubscriberAdapter(null);*/
+return  null;
                                 }
                             })
                 );

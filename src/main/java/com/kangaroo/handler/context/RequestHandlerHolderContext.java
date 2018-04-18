@@ -130,14 +130,10 @@ public abstract class RequestHandlerHolderContext implements Consumer.Context,Ha
             }
 
             @Override
-            public ComponentContext getComponents() {
+            public ComponentFactory getComponents() {
                 throw new UnsupportedOperationException("error");
             }
 
-            @Override
-            public ComponentContext getComponents(String name) {
-               throw new UnsupportedOperationException("error");
-            }
 
             public Future<?> runTask(Runnable runnable) {
                 if (!_isRespnosed.get()) {
